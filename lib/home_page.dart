@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'ui/home/home_screen.dart';
+import 'ui/home/mine_screen.dart';
+
 ///主页
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -7,18 +10,23 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   @override
-  _MyHomePageState createState() {
-    // TODO: implement createState
-    return new _MyHomePageState();
-  }
+  State<StatefulWidget> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _currentIndex = 0;
+  List<Widget> list = List();
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    list..add(HomeScreen())..add(MineScreen());
+  }
+
+  void _onItemTapped(int index) {
     setState(() {
-      _counter++;
+      _currentIndex = index;
     });
   }
 
@@ -26,25 +34,23 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text('You have pushed the button this many times:'),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
+      body: list[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text(
+                'Home',
+              )),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text(
+                'Mine',
+              ))
+        ],
+        onTap: _onItemTapped,
+        currentIndex: _currentIndex,
+        fixedColor: Colors.blue,
       ),
     );
   }
