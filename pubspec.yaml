@@ -26,6 +26,7 @@ dependencies:
   # https://pub.dartlang.org/packages/intro_slider#-readme-tab-
   intro_slider: ^1.0.6
   shared_preferences: "^0.4.2"
+  fluttertoast: ^3.0.1
 
 dev_dependencies:
   flutter_test:

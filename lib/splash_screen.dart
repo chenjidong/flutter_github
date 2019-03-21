@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         bool isFirst = sharedPreferences.getBool("first_launcher");
-        if (isFirst != null || isFirst) {
+        if (isFirst ?? false) {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (context) => MyHomePage(title: 'Home')),
