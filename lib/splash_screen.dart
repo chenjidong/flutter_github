@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_page.dart';
+import 'home_page_screen.dart';
+import 'intro_slider_screen.dart';
 
 ///启动页
 ///
@@ -22,11 +24,22 @@ class _SplashScreenState extends State<SplashScreen>
         vsync: this, duration: Duration(milliseconds: 2000));
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
 
-    _animation.addStatusListener((status) {
+    _animation.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => MyHomePage(title: 'Home')),
-            (route) => route == null);
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        bool isFirst = sharedPreferences.getBool("first_launcher");
+        if (isFirst != null || isFirst) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => MyHomePage(title: 'Home')),
+              (route) => route == null);
+        } else {
+          sharedPreferences.setBool("first_launcher", true);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => SliderScreen()),
+              (route) => route == null);
+        }
       }
     });
     _controller.forward();
@@ -44,11 +57,7 @@ class _SplashScreenState extends State<SplashScreen>
     // TODO: implement build
     return new FadeTransition(
       opacity: _animation,
-      child: new Image.asset(
-        'assets/photo.jpg',
-        scale: 2.0,
-        fit: BoxFit.cover
-      ),
+      child: new Image.asset('assets/photo.jpg', scale: 2.0, fit: BoxFit.cover),
     );
   }
 }
