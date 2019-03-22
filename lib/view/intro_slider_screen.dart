@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 
-import 'home_page_screen.dart';
+import 'package:flutter_my_tool/view/home_page_screen.dart';
 
 ///首次启动引导页
 class SliderScreen extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../account/login_screen.dart';
-import '../util/toast_util.dart';
+import 'package:flutter_my_tool/view/account/login_screen.dart';
+import '../../util/toast_util.dart';
 
 ///个人中心
 class MineScreen extends StatefulWidget {

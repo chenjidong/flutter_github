@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'splash_screen.dart';
+import 'package:flutter_my_tool/view/splash_screen.dart';
 
 void main() => runApp(MyApp());
 

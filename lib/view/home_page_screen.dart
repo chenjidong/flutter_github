@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_tool/view/home/home_screen.dart';
+import 'package:flutter_my_tool/view/home/mine_screen.dart';
 
-import 'ui/home/home_screen.dart';
-import 'ui/home/mine_screen.dart';
+import 'my_drawer.dart';
 
 ///主页
 class MyHomePage extends StatefulWidget {
@@ -35,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement build
     return new Scaffold(
       body: list[_currentIndex],
+      drawer: MyDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

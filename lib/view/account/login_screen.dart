@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../util/toast_util.dart';
+import '../../util/toast_util.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -46,6 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      appBar: AppBar(
+        leading: Builder(builder: (context) {
+          return IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.of(context).pop(this);
+              });
+        }),
+      ),
       body: SafeArea(
           child: ListView(
         children: <Widget>[
