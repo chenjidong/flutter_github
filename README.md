@@ -1,6 +1,6 @@
 # flutter 集成github api
 
-第一次使用
+第一次使用 项目文章信息 基于 http://www.wanandroid.com/ 网站信息 
 
 ## 第三方插件
 
