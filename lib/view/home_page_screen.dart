@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_tool/view/home/home_screen.dart';
 import 'package:flutter_my_tool/view/home/mine_screen.dart';
+import 'package:flutter_my_tool/view/home/wechat_article_screen.dart';
 
 import 'my_drawer.dart';
 
@@ -22,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    list..add(HomeScreen())..add(MineScreen());
+    list..add(HomeScreen())..add(WechatArticleScreen())..add(MineScreen());
   }
 
   void _onItemTapped(int index) {
@@ -42,8 +43,10 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home),
               title: Text(
-                'Home',
+                '推荐',
               )),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.library_books), title: Text('公众号')),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
               title: Text(

@@ -42,4 +42,23 @@ class ApiManager {
       return null;
     }
   }
+
+  /// 获取微信文章列表
+  Future<Response> getWechatArticle(int cid, int page) async {
+    try {
+      Response response = await _dio.get("wxarticle/list/${cid}/${page}/json");
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+  /// 获取推荐微信公众号
+  Future<Response> getWechat() async {
+    try {
+      Response response = await _dio.get("wxarticle/chapters/json");
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
 }
