@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github/common/api/api.dart';
+import 'package:flutter_github/common/http/http_manager.dart';
 
 import '../../bean/wechat_bean.dart';
-import '../../manager/api_manager.dart';
 import '../../widget/async_snapshot_widget.dart';
 import 'wechat_article_list_screen.dart';
 
@@ -108,10 +108,10 @@ class _WechatArticleState extends State<WechatArticleScreen>
 
   ///获取微信公总号
   Future<List<Wechat>> getWechat() async {
-    Response response;
-    await ApiManager().getWechat().then((res) {
-      response = res;
+    var data;
+    await httpManager.get(Api.getWechat(), null).then((res) {
+      data = res;
     });
-    return WechatBean.fromJson(response.data).data;
+    return WechatBean.fromJson(data).data;
   }
 }

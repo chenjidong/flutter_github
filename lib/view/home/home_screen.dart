@@ -1,11 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github/bean/home_article_bean.dart';
+import 'package:flutter_github/bean/home_banner_bean.dart';
+import 'package:flutter_github/common/api/api.dart';
+import 'package:flutter_github/common/http/http_manager.dart';
+import 'package:flutter_github/widget/item_home_article.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
-import '../../bean/home_article_bean.dart';
-import '../../bean/home_banner_bean.dart';
-import '../../manager/api_manager.dart';
-import '../../widget/item_home_article.dart';
 
 ///首页
 class HomeScreen extends StatefulWidget {
@@ -91,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   /// 获取首页推荐文章数据
   Future<Null> getList(bool loadMore) async {
-    Response response = await ApiManager().getHomeArticle(_page);
-    var homeArticleBean = HomeArticleBean.fromJson(response.data);
+    var data = await httpManager.get(Api.getHomeArticle(_page), null);
+    var homeArticleBean = HomeArticleBean.fromJson(data);
     setState(() {
       if (loadMore) {
         articles.addAll(homeArticleBean.data.datas);
@@ -105,8 +104,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   //获取广告内容
   void getBanner() async {
-    Response response = await ApiManager().getHomeBanner();
-    var homeBannerBean = HomeBannerBean.fromJson(response.data);
+    var data = await httpManager.get(Api.getHomeBanner(), null);
+    var homeBannerBean = HomeBannerBean.fromJson(data);
 
     setState(() {
       banners.clear();

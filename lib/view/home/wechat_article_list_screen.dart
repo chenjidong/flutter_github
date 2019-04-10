@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_github/common/api/api.dart';
+import 'package:flutter_github/common/http/http_manager.dart';
 
 import '../../bean/wechat_article_bean.dart';
-import '../../manager/api_manager.dart';
 import '../../widget/item_wechat_article.dart';
 
 class WechatArticleListScreen extends StatefulWidget {
@@ -42,9 +43,11 @@ class _WechatArticleListState extends State<WechatArticleListScreen>
   }
 
   void getList() async {
-    await ApiManager().getWechatArticle(widget.cid, index).then((response) {
+    await httpManager
+        .get(Api.getWechatArticle(widget.cid, index), null)
+        .then((response) {
       if (response != null) {
-        var bean = WechatArticleBean.fromJson(response.data);
+        var bean = WechatArticleBean.fromJson(response);
         setState(() {
           articles.addAll(bean.data.datas);
         });

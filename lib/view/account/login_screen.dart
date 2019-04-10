@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../util/toast_util.dart';
+import 'package:flutter_github/common/util/toast_util.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

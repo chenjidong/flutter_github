@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_tool/view/home/home_screen.dart';
-import 'package:flutter_my_tool/view/home/mine_screen.dart';
-import 'package:flutter_my_tool/view/home/wechat_article_screen.dart';
+import 'package:flutter_github/view/home/home_screen.dart';
+import 'package:flutter_github/view/home/mine_screen.dart';
+import 'package:flutter_github/view/home/wechat_article_screen.dart';
 
-import 'my_drawer.dart';
+import 'left_drawer_screen.dart';
 
 ///主页
 class MyHomePage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement build
     return new Scaffold(
       body: list[_currentIndex],
-      drawer: MyDrawer(),
+      drawer: LeftDrawerScreen(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

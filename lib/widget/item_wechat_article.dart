@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_tool/view/web/web_view_screen.dart';
+import 'package:flutter_github/view/web/web_view_screen.dart';
 
 import '../bean/wechat_article_bean.dart';
 

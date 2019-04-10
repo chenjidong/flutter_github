@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_my_tool/view/home_page_screen.dart';
-import 'package:flutter_my_tool/view/intro_slider_screen.dart';
+import 'package:flutter_github/view/home_page_screen.dart';
+import 'package:flutter_github/view/intro_slider_screen.dart';
 
 ///启动页
 ///
