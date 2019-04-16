@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_github/common/config/config.dart';
+import 'package:flutter_github/common/util/shared_preferences_util.dart';
 import 'package:flutter_github/view/home_page_screen.dart';
 import 'package:flutter_github/view/intro_slider_screen.dart';
 
@@ -26,16 +26,14 @@ class _SplashScreenState extends State<SplashScreen>
 
     _animation.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        bool isFirst = sharedPreferences.getBool("first_launcher");
+        bool isFirst = await SharedPreferencesUtil.get(Config.FIRST_LAUNCHER);
         if (isFirst ?? false) {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (context) => MyHomePage(title: 'Home')),
               (route) => route == null);
         } else {
-          sharedPreferences.setBool("first_launcher", true);
+          SharedPreferencesUtil.saveBool(Config.FIRST_LAUNCHER, true);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => SliderScreen()),
               (route) => route == null);

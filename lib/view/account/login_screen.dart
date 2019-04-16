@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_github/common/config/config.dart';
+import 'package:flutter_github/common/util/shared_preferences_util.dart';
 import 'package:flutter_github/common/util/toast_util.dart';
+import 'package:flutter_github/view/account/config_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -23,6 +24,20 @@ class _LoginScreenState extends State<LoginScreen> {
     _pwdController = TextEditingController();
     _nameFocus = FocusNode();
     _pwdFocus = FocusNode();
+
+    _checkOauthConfig();
+  }
+
+
+  void _checkOauthConfig() async{
+    var appid = await SharedPreferencesUtil.get(Config.GITHUB_APP_ID);
+    var secret = await SharedPreferencesUtil.get(Config.GITHUB_SECRET);
+
+    if (appid == null || secret == null) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => ConfigScreen()));
+      ToastUtil.showToast('请设置 appid 和 secret 后登录');
+    }
   }
 
   ///请求登录
@@ -37,8 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     ToastUtil.showToast('登录成功');
 
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool('is_signin', true);
+    SharedPreferencesUtil.saveBool(Config.IS_SIGN_IN, true);
+
     Navigator.of(context).pop(this);
   }
 
