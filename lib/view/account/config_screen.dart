@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_github/common/util/toast_util.dart';
+import 'package:flutter_github/view/account/config_guide.dart';
 
 /// appid secret 配置界面
 class ConfigScreen extends StatefulWidget {
@@ -97,7 +97,9 @@ class _ConfigScreenState extends State<ConfigScreen> {
           ),
           GestureDetector(
             onTap: () {
-              ToastUtil.showToast('一会告诉你~');
+//              ToastUtil.showToast('一会告诉你~');
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ConfigGuideScreen()));
             },
             child: Row(
               children: <Widget>[
