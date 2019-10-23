@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_github/common/config/ignore_config.dart';
 import 'package:flutter_github/view/account/config_guide.dart';
 
 /// appid secret 配置界面
@@ -25,6 +26,9 @@ class _ConfigScreenState extends State<ConfigScreen> {
   }
 
   void _save() {
+    var appid = GithubConfig.CLIENT_ID;
+    var secret = GithubConfig.CLIENT_SECRET;
+
     ///
   }
 
