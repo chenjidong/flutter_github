@@ -28,8 +28,14 @@ class _MineScreenState extends State<MineScreen> {
           .push(MaterialPageRoute(builder: (context) => SettingScreen()));
     } else {
       ToastUtil.showToast('请登录后重试');
-      Navigator.of(context)
+      var result = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => LoginScreen()));
+
+      if (result) {
+        setState(() {
+          _isSignIn = true;
+        });
+      }
     }
   }
 

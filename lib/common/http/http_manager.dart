@@ -64,6 +64,16 @@ class HttpManager {
   post(url, params) async {
     return await requestHttp(url, params, null, Options(method: "post"));
   }
+
+  ///清除授权
+  clearAuthorization() {
+    _tokenInterceptor.clearAuthorization();
+  }
+
+  ///获取授权token
+  getAuthorization() async {
+    return _tokenInterceptor.getAuthorization();
+  }
 }
 
 final HttpManager httpManager = HttpManager();

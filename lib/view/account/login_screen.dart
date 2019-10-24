@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_github/common/api/user_api.dart';
 import 'package:flutter_github/common/config/config.dart';
+import 'package:flutter_github/common/config/ignore_config.dart';
 import 'package:flutter_github/common/util/shared_preferences_util.dart';
 import 'package:flutter_github/common/util/toast_util.dart';
 import 'package:flutter_github/view/account/config_screen.dart';
@@ -21,15 +23,17 @@ class _LoginScreenState extends State<LoginScreen> {
     // TODO: implement initState
     super.initState();
     _nameController = TextEditingController();
+    _nameController.text = GithubConfig.USER_NAME;
     _pwdController = TextEditingController();
+    _pwdController.text = GithubConfig.PWD;
+
     _nameFocus = FocusNode();
     _pwdFocus = FocusNode();
 
     _checkOauthConfig();
   }
 
-
-  void _checkOauthConfig() async{
+  void _checkOauthConfig() async {
     var appid = await SharedPreferencesUtil.get(Config.GITHUB_APP_ID);
     var secret = await SharedPreferencesUtil.get(Config.GITHUB_SECRET);
 
@@ -50,11 +54,17 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    ToastUtil.showToast('登录成功');
+    UserApi.login(name, pwd).then((res) {
+      if (res != null && res.result) {
+        ToastUtil.showToast('登录成功');
 
-    SharedPreferencesUtil.saveBool(Config.IS_SIGN_IN, true);
+//        SharedPreferencesUtil.saveBool(Config.IS_SIGN_IN, true);
 
-    Navigator.of(context).pop(this);
+        Navigator.of(context).pop(true);
+      } else {
+        ToastUtil.showToast('登录失败！');
+      }
+    });
   }
 
   @override
@@ -115,7 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 onSubmitted: (input) {
                   _pwdFocus.unfocus();
                   //登录
-                  _login();
                 },
                 decoration: InputDecoration(labelText: 'password'),
               ),
@@ -128,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               RaisedButton(
                 onPressed: _login,
-                child: Text('Login'),
+                child: Text('登录'),
                 color: Colors.white,
               )
             ],

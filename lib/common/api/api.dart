@@ -23,4 +23,26 @@ class Api {
   static getWechat() {
     return "${articleApi}wxarticle/chapters/json";
   }
+
+  ///获取授权  post
+  static getAuthorization() {
+    return "${hostApi}authorizations";
+  }
+
+  ///我的用户信息 GET
+  static getMyUserInfo() {
+    return "${hostApi}user";
+  }
+
+  ///用户信息 get
+  static getUserInfo(userName) {
+    return "${hostApi}users/$userName";
+  }
+
+  ///用户的star get
+  static userStar(userName, sort) {
+    sort ??= 'updated';
+    return "${hostApi}users/$userName/starred?sort=$sort";
+
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_github/common/config/config.dart';
 import 'package:flutter_github/common/config/ignore_config.dart';
+import 'package:flutter_github/common/util/shared_preferences_util.dart';
 import 'package:flutter_github/view/account/config_guide.dart';
 
 /// appid secret 配置界面
@@ -21,15 +23,23 @@ class _ConfigScreenState extends State<ConfigScreen> {
     super.initState();
     _appidController = TextEditingController();
     _secretController = TextEditingController();
+
+    _appidController.text = GithubConfig.CLIENT_ID;
+    _secretController.text = GithubConfig.CLIENT_SECRET;
+
     _appidFocus = FocusNode();
     _secretFocus = FocusNode();
   }
 
   void _save() {
-    var appid = GithubConfig.CLIENT_ID;
-    var secret = GithubConfig.CLIENT_SECRET;
+    var appid = _appidController.text;
+    var secret = _secretController.text;
 
-    ///
+    if (appid != null && secret != null) {
+      SharedPreferencesUtil.save(Config.GITHUB_APP_ID, appid);
+      SharedPreferencesUtil.save(Config.GITHUB_SECRET, secret);
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -85,7 +95,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               child: TextField(
                 focusNode: _secretFocus,
                 controller: _secretController,
-                obscureText: true,
+                obscureText: false,
                 textInputAction: TextInputAction.done,
                 onSubmitted: (input) {
                   _secretFocus.unfocus();
@@ -123,8 +133,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               Expanded(
                   child: Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child:
-                          RaisedButton(onPressed: _save, child: Text('Save'))))
+                      child: RaisedButton(onPressed: _save, child: Text('保存'))))
             ],
           ),
         ],
