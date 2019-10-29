@@ -20,18 +20,17 @@ class _MineScreenState extends State<MineScreen> {
   bool _isSignIn = false;
   var _list = List();
 
-  void _setting() async {
+  void _jumpScreen(Widget screen) async {
     _isSignIn = await SharedPreferencesUtil.get(Config.IS_SIGN_IN);
     if (_isSignIn ?? false) {
-//      ToastUtil.showToast('正在跳转设置界面');
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => SettingScreen()));
+          .push(MaterialPageRoute(builder: (context) => screen));
     } else {
       ToastUtil.showToast('请登录后重试');
       var result = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => LoginScreen()));
 
-      if (result) {
+      if (result ?? false) {
         setState(() {
           _isSignIn = true;
         });
@@ -56,7 +55,11 @@ class _MineScreenState extends State<MineScreen> {
       appBar: new AppBar(
         title: new Text('Mine'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: _setting)
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                _jumpScreen(SettingScreen());
+              })
         ],
       ),
       body: ListView.separated(
@@ -87,9 +90,7 @@ class _MineScreenState extends State<MineScreen> {
           RaisedButton(
             child: Text("登录"),
             onPressed: () {
-              setState(() {
-                _isSignIn = true;
-              });
+              _jumpScreen(LoginScreen());
             },
           )
         ],

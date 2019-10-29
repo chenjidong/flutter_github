@@ -5,6 +5,7 @@ import 'package:flutter_github/common/config/ignore_config.dart';
 import 'package:flutter_github/common/util/shared_preferences_util.dart';
 import 'package:flutter_github/common/util/toast_util.dart';
 import 'package:flutter_github/view/account/config_screen.dart';
+import 'package:flutter_github/widget/loading_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _nameController, _pwdController;
   FocusNode _nameFocus, _pwdFocus;
+  bool _isRunning = false;
 
   @override
   void initState() {
@@ -46,6 +48,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   ///请求登录
   Future _login() async {
+    if (_isRunning) {
+      showAlertDialog(context);
+      return;
+    }
     var name = _nameController.text;
     var pwd = _pwdController.text;
     if (name == '' || pwd == '') {
@@ -53,18 +59,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
       return;
     }
-
+    showAlertDialog(context);
     UserApi.login(name, pwd).then((res) {
+      _isRunning = false;
+      Navigator.pop(context);
       if (res != null && res.result) {
         ToastUtil.showToast('登录成功');
 
-//        SharedPreferencesUtil.saveBool(Config.IS_SIGN_IN, true);
+        SharedPreferencesUtil.saveBool(Config.IS_SIGN_IN, true);
 
         Navigator.of(context).pop(true);
       } else {
         ToastUtil.showToast('登录失败！');
       }
     });
+  }
+
+  showAlertDialog(BuildContext context) {
+    showDialog(context: context, builder: (context) => LoadingDialog("登录中..."));
   }
 
   @override
