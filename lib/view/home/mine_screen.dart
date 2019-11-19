@@ -5,6 +5,7 @@ import 'package:flutter_github/common/util/shared_preferences_util.dart';
 import 'package:flutter_github/common/util/toast_util.dart';
 import 'package:flutter_github/view/account/login_screen.dart';
 import 'package:flutter_github/view/mine/history_screen.dart';
+import 'package:flutter_github/view/mine/repository_screen.dart';
 import 'package:flutter_github/view/mine/setting_screen.dart';
 
 ///个人中心
@@ -22,7 +23,7 @@ class _MineScreenState extends State<MineScreen> {
 
   void _jumpScreen(Widget screen) async {
     _isSignIn = await SharedPreferencesUtil.get(Config.IS_SIGN_IN);
-    if (_isSignIn ?? false) {
+    if (_isSignIn) {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => screen));
     } else {
@@ -42,10 +43,15 @@ class _MineScreenState extends State<MineScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    checkUserInfo();
+    _list.add("我的仓库");
     _list.add("关于我们");
     _list.add("意见反馈");
     _list.add("历史记录");
+  }
+
+  void checkUserInfo() async {
+    _isSignIn = await SharedPreferencesUtil.get(Config.IS_SIGN_IN);
   }
 
   @override
@@ -65,7 +71,7 @@ class _MineScreenState extends State<MineScreen> {
       body: ListView.separated(
           itemBuilder: (context, index) {
             if (index == 0) {
-              if (_isSignIn ?? false) {
+              if (_isSignIn) {
                 return login();
               } else {
                 return notLogin();
@@ -129,11 +135,14 @@ class _MineScreenState extends State<MineScreen> {
   Widget getListItem(int index, String value) {
     return GestureDetector(
       onTap: () {
-        ToastUtil.showToast(value);
-        if (index == 2) {
+        if (index == 3) {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => HistoryScreen()));
-        }
+        } else if (index == 0) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => RepositoryScreen(0)));
+        } else
+          ToastUtil.showToast(value);
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(16, 16, 16, 16),

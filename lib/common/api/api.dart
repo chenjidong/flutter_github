@@ -45,4 +45,23 @@ class Api {
     return "${hostApi}users/$userName/starred?sort=$sort";
 
   }
+
+  ///用户的仓库 get
+  static userRepos(userName, sort) {
+    sort ??= 'pushed';
+    return "${hostApi}users/$userName/repos?sort=$sort";
+  }
+
+  ///处理分页参数
+  static getPageParams(tab, page, [pageSize = 20]) {
+    if (page != null) {
+      if (pageSize != null) {
+        return "${tab}page=$page&per_page=$pageSize";
+      } else {
+        return "${tab}page=$page";
+      }
+    } else {
+      return "";
+    }
+  }
 }

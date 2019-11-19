@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_github/common/api/api.dart';
+import 'package:flutter_github/common/bean/Repository.dart';
+import 'package:flutter_github/common/bean/User.dart';
 import 'package:flutter_github/common/bean/data_result.dart';
-import 'package:flutter_github/common/bean/user.dart';
 import 'package:flutter_github/common/config/config.dart';
 import 'package:flutter_github/common/config/ignore_config.dart';
 import 'package:flutter_github/common/http/http_manager.dart';
@@ -22,7 +23,7 @@ class UserApi {
       "scopes": ['user', 'repo', 'gist', 'notifications'],
       "note": "admin_script",
       "client_id": GithubConfig.CLIENT_ID,
-      "client_secret":GithubConfig.CLIENT_SECRET
+      "client_secret": GithubConfig.CLIENT_SECRET
     };
 
     httpManager.clearAuthorization();
@@ -92,5 +93,22 @@ class UserApi {
       }
     }
     return new DataResult(null, false);
+  }
+
+  static getUserRepos(userName, sort, page) async {
+    String url = Api.userRepos(userName, sort) + Api.getPageParams("&", page);
+
+    var res = await httpManager.get(url, null);
+    if (res != null && res.length > 0) {
+      List<Repository> list = List();
+      for (int i = 0; i < res.length; i++) {
+        var data = res[i];
+        Repository repository = Repository.fromJson(data);
+        list.add(repository);
+      }
+
+      return DataResult(list, true);
+    } else
+      return DataResult(null, false);
   }
 }
