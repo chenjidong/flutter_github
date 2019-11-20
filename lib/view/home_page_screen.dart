@@ -37,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement build
     return new Scaffold(
       body: list[_currentIndex],
-      drawer: LeftDrawerScreen(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

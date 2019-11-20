@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github/bean/user.dart';
 import 'package:flutter_github/common/config/config.dart';
 import 'package:flutter_github/common/util/shared_preferences_util.dart';
 import 'package:flutter_github/common/util/toast_util.dart';
@@ -20,18 +23,21 @@ class MineScreen extends StatefulWidget {
 class _MineScreenState extends State<MineScreen> {
   bool _isSignIn = false;
   var _list = List();
+  User _user;
 
   void _jumpScreen(Widget screen) async {
-    _isSignIn = await SharedPreferencesUtil.get(Config.IS_SIGN_IN);
+    _isSignIn = await SharedPreferencesUtil.getBool(Config.IS_SIGN_IN) ?? false;
     if (_isSignIn) {
-      Navigator.of(context)
+      var result = await Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => screen));
+      if (result != null && result) checkUserInfo();
     } else {
       ToastUtil.showToast('请登录后重试');
       var result = await Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => LoginScreen()));
+              .push(MaterialPageRoute(builder: (context) => LoginScreen())) ??
+          false;
 
-      if (result ?? false) {
+      if (result) {
         setState(() {
           _isSignIn = true;
         });
@@ -51,7 +57,15 @@ class _MineScreenState extends State<MineScreen> {
   }
 
   void checkUserInfo() async {
-    _isSignIn = await SharedPreferencesUtil.get(Config.IS_SIGN_IN);
+    var result =
+        await SharedPreferencesUtil.getBool(Config.IS_SIGN_IN) ?? false;
+    if(result) {
+      String str = await SharedPreferencesUtil.get(Config.USER_INFO);
+      _user = User.fromJson(jsonDecode(str));
+    }
+    setState(() {
+      _isSignIn = result;
+    });
   }
 
   @override
@@ -109,6 +123,13 @@ class _MineScreenState extends State<MineScreen> {
       "assets/logo.jpg",
       height: 80,
     );
+    if (_user != null) {
+      avatar = Image.network(
+        _user.avatar_url,
+        width: 80,
+        height: 80,
+      );
+    }
     return Column(
       children: <Widget>[
         Padding(
@@ -120,10 +141,10 @@ class _MineScreenState extends State<MineScreen> {
           ),
         ),
         Center(
-          child: Text("Github"),
+          child: Text(_user?.name??"--"),
         ),
         Center(
-          child: Text("this is description ..."),
+          child: Text(_user?.location??"--"),
         ),
         Container(
           height: 10,
@@ -136,11 +157,9 @@ class _MineScreenState extends State<MineScreen> {
     return GestureDetector(
       onTap: () {
         if (index == 3) {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => HistoryScreen()));
+          _jumpScreen(HistoryScreen());
         } else if (index == 0) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RepositoryScreen(0)));
+          _jumpScreen(RepositoryScreen(0));
         } else
           ToastUtil.showToast(value);
       },

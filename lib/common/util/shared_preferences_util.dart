@@ -17,6 +17,11 @@ class SharedPreferencesUtil {
     return prefs.get(key);
   }
 
+  static Future<bool> getBool(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(key);
+  }
+
   static remove(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(key);

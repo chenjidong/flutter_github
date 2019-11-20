@@ -2,7 +2,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 
-part 'Repository.g.dart';
+part 'repository.g.dart';
 
 @JsonSerializable()
 class Repository {

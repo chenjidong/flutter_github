@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_github/common/api/api.dart';
-import 'package:flutter_github/common/bean/Repository.dart';
-import 'package:flutter_github/common/bean/User.dart';
-import 'package:flutter_github/common/bean/data_result.dart';
+import 'package:flutter_github/bean/repository.dart';
+import 'package:flutter_github/bean/user.dart';
+import 'package:flutter_github/bean/data_result.dart';
 import 'package:flutter_github/common/config/config.dart';
 import 'package:flutter_github/common/config/ignore_config.dart';
 import 'package:flutter_github/common/http/http_manager.dart';
@@ -49,15 +49,7 @@ class UserApi {
     var res = await httpManager.get(uri, null);
 
     if (res != null) {
-      String starred = "---";
-      if (res["type"] != "Organization") {
-        var countRes = await getUserStaredCountNet(res["login"]);
-        if (countRes != null && countRes.data != null) {
-          starred = countRes.data;
-        }
-      }
       User user = User.fromJson(res);
-      user.starred = starred;
 
       if (userName == null) {
         SharedPreferencesUtil.save(
@@ -69,30 +61,6 @@ class UserApi {
     } else {
       return DataResult(res.data, false);
     }
-  }
-
-  /**
-   * 在header中提起stared count
-   */
-  static getUserStaredCountNet(userName) async {
-    String url = Api.userStar(userName, null) + "&per_page=1";
-    var res = await httpManager.get(url, null);
-    if (res != null && res.headers != null) {
-      try {
-        List<String> link = res.headers['link'];
-        if (link != null) {
-          int indexStart = link[0].lastIndexOf("page=") + 5;
-          int indexEnd = link[0].lastIndexOf(">");
-          if (indexStart >= 0 && indexEnd >= 0) {
-            String count = link[0].substring(indexStart, indexEnd);
-            return new DataResult(count, true);
-          }
-        }
-      } catch (e) {
-        print(e);
-      }
-    }
-    return new DataResult(null, false);
   }
 
   static getUserRepos(userName, sort, page) async {

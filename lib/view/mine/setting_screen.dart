@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_github/common/config/config.dart';
 import 'package:flutter_github/common/util/toast_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
   @override
@@ -15,9 +15,10 @@ class _SettingState extends State<SettingScreen> {
   /// 退出登录
   void _logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool('is_signin', false);
+    sharedPreferences.setBool(Config.IS_SIGN_IN, false);
+    sharedPreferences.setString(Config.USER_INFO, null);
     ToastUtil.showToast('退出成功！');
-    Navigator.of(context).pop(this);
+    Navigator.of(context).pop(true);
   }
 
   @override
@@ -30,7 +31,7 @@ class _SettingState extends State<SettingScreen> {
               icon: Icon(Icons.arrow_back),
               color: Colors.white,
               onPressed: () {
-                Navigator.of(context).pop(this);
+                Navigator.of(context).pop(false);
               });
         }),
       ),

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_github/common/api/user_api.dart';
-import 'package:flutter_github/common/bean/Repository.dart';
-import 'package:flutter_github/common/bean/User.dart';
+import 'package:flutter_github/bean/repository.dart';
+import 'package:flutter_github/bean/user.dart';
 import 'package:flutter_github/common/config/config.dart';
 import 'package:flutter_github/common/util/shared_preferences_util.dart';
 

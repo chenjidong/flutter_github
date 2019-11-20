@@ -6,6 +6,8 @@ import 'package:flutter_github/common/http/http_manager.dart';
 import 'package:flutter_github/widget/item_home_article.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+import '../left_drawer_screen.dart';
+
 ///首页
 class HomeScreen extends StatefulWidget {
   @override
@@ -63,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
     // TODO: implement build
     return new Scaffold(
+      drawer: LeftDrawerScreen(),
       appBar: new AppBar(
         title: new Text('推荐文章'),
         centerTitle: true, //设置标题是否局中
